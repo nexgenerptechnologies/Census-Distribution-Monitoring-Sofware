@@ -571,6 +571,9 @@
       </div>
       <div class="portal-title-block">
         <h1>Census Distribution Monitoring Software</h1>
+        <div style="font-size: 15px; font-weight: 700; color: #fde047; letter-spacing: 0.5px; margin: 2px 0 4px 0;">
+          Census of India / भारत की जनगणना
+        </div>
         <p>{{ settings.project_name or "CENSUS-2027 PROJECT" }} &bull; Office of the Registrar General & Census Commissioner of India</p>
       </div>
     </div>
@@ -615,7 +618,7 @@
         <div class="kpi-icon-wrap kpi-green"><i class="fa fa-truck"></i></div>
         <div>
           <div class="kpi-label">Total Dispatched</div>
-          <div class="kpi-value" id="kpi-dispatched">35,000</div>
+          <div class="kpi-value" id="kpi-dispatched">{{ "{:,.0f}".format(stock_data.kit_stock.total_dispatched or 35000) }}</div>
         </div>
       </div>
       <div class="kpi-card">
@@ -629,7 +632,7 @@
         <div class="kpi-icon-wrap kpi-purple"><i class="fa fa-box-open"></i></div>
         <div>
           <div class="kpi-label">Available Kit Stock</div>
-          <div class="kpi-value" id="kpi-stock">5,000</div>
+          <div class="kpi-value" id="kpi-stock">{{ "{:,.0f}".format(stock_data.kit_stock.balance or 0) }}</div>
         </div>
       </div>
       <div class="kpi-card">
@@ -1038,12 +1041,16 @@
   function initCharts() {
     const ctxRatio = document.getElementById("stockRatioChart");
     if (ctxRatio) {
+      const dispatchedKits = {{ stock_data.kit_stock.total_dispatched or 35000 }};
+      const availableKits = {{ stock_data.kit_stock.balance or 0 }};
+      const dispLabel = "Dispatched Kits (" + (dispatchedKits >= 1000 ? (dispatchedKits / 1000).toFixed(0) + "k" : dispatchedKits) + ")";
+      const stockLabel = "Available Stock (" + (availableKits >= 1000 ? (availableKits / 1000).toFixed(0) + "k" : availableKits) + ")";
       ratioChart = new Chart(ctxRatio, {
         type: "doughnut",
         data: {
-          labels: ["Dispatched Kits (35k)", "Available Stock (5k)"],
+          labels: [dispLabel, stockLabel],
           datasets: [{
-            data: [35000, 5000],
+            data: [dispatchedKits, availableKits],
             backgroundColor: ["#0b5ed7", "#15803d"],
             borderWidth: 2,
             borderColor: "#ffffff"

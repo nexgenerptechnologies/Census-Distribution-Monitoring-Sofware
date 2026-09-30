@@ -8,7 +8,7 @@ def get_context(context):
     
     # Require login for customer portal
     if frappe.session.user == "Guest":
-        frappe.local.flags.redirect_location = "/login?redirect-to=/tracking"
+        frappe.local.flags.redirect_location = "/login?redirect-to=/portal"
         raise frappe.Redirect
     
     context.user_full_name = frappe.utils.get_fullname(frappe.session.user)
