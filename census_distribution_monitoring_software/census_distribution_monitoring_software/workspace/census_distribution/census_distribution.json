@@ -2,7 +2,7 @@
  "app": "census_distribution_monitoring_software",
  "category": "Modules",
  "charts": [],
- "content": "[{\"id\":\"welcome_head\",\"type\":\"header\",\"data\":{\"text\":\"Census Distribution Monitoring Software\",\"col\":12}},{\"id\":\"card_stock\",\"type\":\"card\",\"data\":{\"card_name\":\"Census Operations\",\"col\":12}}]",
+ "content": "[{\"id\":\"h1\",\"type\":\"header\",\"data\":{\"text\":\"Census Distribution Monitoring Software - Central Dashboard\",\"col\":12}},{\"id\":\"nc1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Kits Ordered\",\"col\":3}},{\"id\":\"nc2\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Kits Dispatched\",\"col\":3}},{\"id\":\"nc3\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending Kits to Dispatch\",\"col\":3}},{\"id\":\"nc4\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Consignments Dispatched\",\"col\":3}},{\"id\":\"sc1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Census Stock\",\"col\":3}},{\"id\":\"sc2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Census Order\",\"col\":3}},{\"id\":\"sc3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Census Pending Order\",\"col\":3}},{\"id\":\"sc4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Census Dispatch\",\"col\":3}},{\"id\":\"card1\",\"type\":\"card\",\"data\":{\"card_name\":\"Census Operations\",\"col\":12}}]",
  "creation": "2026-09-30 18:00:00.000000",
  "custom_blocks": [],
  "docstatus": 0,
@@ -109,7 +109,20 @@
  "modified_by": "Administrator",
  "module": "Census Distribution Monitoring Software",
  "name": "Census Distribution",
- "number_cards": [],
+ "number_cards": [
+  {
+   "number_card_name": "Total Kits Ordered"
+  },
+  {
+   "number_card_name": "Total Kits Dispatched"
+  },
+  {
+   "number_card_name": "Pending Kits to Dispatch"
+  },
+  {
+   "number_card_name": "Total Consignments Dispatched"
+  }
+ ],
  "owner": "Administrator",
  "parent_page": "",
  "public": 1,
@@ -129,7 +142,7 @@
  "shortcuts": [
   {
    "color": "Purple",
-   "doc_view": "Form",
+   "doc_view": "",
    "label": "Census Stock",
    "link_to": "Census Stock",
    "type": "DocType"
@@ -157,5 +170,6 @@
    "type": "DocType"
   }
  ],
- "title": "Census Distribution"
+ "title": "Census Distribution",
+ "type": "Workspace"
 }
