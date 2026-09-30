@@ -4,6 +4,7 @@ app_publisher = "NexGen ERP Technologies"
 app_description = "Census Distribution Monitoring Software for Frappe Framework v15 and v16"
 app_email = "info@nexgenerptechnologies.com"
 app_license = "mit"
+required_apps = []
 
 # Includes in <head>
 # ------------------
