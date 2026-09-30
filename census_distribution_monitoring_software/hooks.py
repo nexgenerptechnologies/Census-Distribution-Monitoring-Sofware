@@ -26,6 +26,14 @@ website_route_rules = [
 # Fixtures handled cleanly by after_migrate hook
 # fixtures = []
 
+# Role Home Page (Directs customer to /portal on login)
+role_home_page = {
+    "Census Portal User": "portal",
+}
+
+# On Login Hook
+on_login = "census_distribution_monitoring_software.setup_data.on_login"
+
 after_install = "census_distribution_monitoring_software.setup_data.after_install"
 after_migrate = "census_distribution_monitoring_software.setup_data.after_migrate"
 

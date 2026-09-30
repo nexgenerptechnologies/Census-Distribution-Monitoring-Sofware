@@ -91,28 +91,24 @@
     gap: 18px;
   }
 
-  .census-emblem-badge {
-    background: white;
-    color: var(--census-navy);
-    width: 64px;
-    height: 64px;
+  .census-emblem-badge-img {
+    background: #ffffff;
+    width: 68px;
+    height: 68px;
     border-radius: 50%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    font-size: 8px;
-    font-weight: bold;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
     flex-shrink: 0;
+    overflow: hidden;
+    padding: 3px;
   }
 
-  .emblem-year {
-    color: var(--census-red);
-    font-size: 14px;
-    font-weight: 900;
-    line-height: 1;
+  .census-emblem-badge-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .portal-title-block h1 {
@@ -570,10 +566,8 @@
   <!-- Portal Header -->
   <div class="portal-header">
     <div class="portal-header-left">
-      <div class="census-emblem-badge">
-        <span>भारत</span>
-        <span class="emblem-year">2027</span>
-        <span>CENSUS</span>
+      <div class="census-emblem-badge-img">
+        <img src="/assets/census_distribution_monitoring_software/images/census_emblem.png" alt="Census of India 2027 Emblem">
       </div>
       <div class="portal-title-block">
         <h1>Census Distribution Monitoring Software</h1>

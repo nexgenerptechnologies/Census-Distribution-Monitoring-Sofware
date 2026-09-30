@@ -288,11 +288,33 @@ def configure_permissions():
         role_doc.desk_access = 1
         role_doc.save(ignore_permissions=True)
 
+    # Ensure any user with Census Portal User has redirect_url = '/portal'
+    try:
+        portal_users = frappe.get_all(
+            "Has Role",
+            filters={"role": "Census Portal User", "parenttype": "User"},
+            fields=["parent"]
+        )
+        for u in portal_users:
+            frappe.db.set_value("User", u.parent, "redirect_url", "/portal")
+    except Exception:
+        pass
+
     # Initialize Census Stock Single DocType
     try:
         stock_doc = frappe.get_single("Census Stock")
         stock_doc.populate_live_stock()
         stock_doc.save(ignore_permissions=True)
+    except Exception:
+        pass
+
+def on_login(login_manager):
+    """Ensure customer lands directly on /portal upon login"""
+    try:
+        user = login_manager.user
+        roles = frappe.get_roles(user)
+        if "Census Portal User" in roles and "System Manager" not in roles:
+            frappe.local.response["home_page"] = "/portal"
     except Exception:
         pass
 
