@@ -30,6 +30,9 @@ fixtures = [
     {"dt": "Census Item"},
 ]
 
+after_install = "census_distribution_monitoring_software.setup_data.after_install"
+after_migrate = "census_distribution_monitoring_software.setup_data.after_migrate"
+
 # DocType Events
 # doc_events = {
 #     "Census Dispatch": {
