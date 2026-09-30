@@ -15,6 +15,7 @@ def load_default_data():
     items_created = create_items()
     states_created = create_states()
     settings_configured = configure_settings()
+    configure_permissions()
     frappe.db.commit()
     return {
         "status": "success",
@@ -247,3 +248,18 @@ def configure_settings():
         settings.speed_post_current_number = 40000
     settings.save(ignore_permissions=True)
     return True
+
+def configure_permissions():
+    """Ensure Census Portal User has desk_access = 1 and only sees Census Dispatch & Census Stock"""
+    if frappe.db.exists("Role", "Census Portal User"):
+        role_doc = frappe.get_doc("Role", "Census Portal User")
+        role_doc.desk_access = 1
+        role_doc.save(ignore_permissions=True)
+
+    # Initialize Census Stock Single DocType
+    try:
+        stock_doc = frappe.get_single("Census Stock")
+        stock_doc.populate_live_stock()
+        stock_doc.save(ignore_permissions=True)
+    except Exception:
+        pass

@@ -175,6 +175,20 @@
    "read": 1,
    "report": 1,
    "role": "Census Portal User"
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
   }
  ],
  "sort_field": "dispatch_date",

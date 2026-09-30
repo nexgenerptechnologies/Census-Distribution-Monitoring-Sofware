@@ -1,3 +1,5 @@
+import csv
+import io
 import frappe
 from frappe import _
 
@@ -8,7 +10,6 @@ def get_stock_balance():
     - Enumerator Kit Set balance (Total Received - Total Dispatched)
     - Loose Items (Sr. No. 1 to 10) balance
     """
-    # 1. Fetch all items
     items = frappe.get_all(
         "Census Item",
         fields=["name", "item_code", "item_name", "sr_no", "is_kit_set", "uom"],
@@ -26,7 +27,7 @@ def get_stock_balance():
         else:
             loose_items.append(item)
 
-    # 2. Inward Stock from submitted Census Stock Entry
+    # Inward Stock from submitted Census Stock Entry
     inward_query = """
         SELECT sei.item, SUM(sei.quantity) as total_inward
         FROM `tabCensus Stock Entry Item` sei
@@ -36,7 +37,7 @@ def get_stock_balance():
     """
     inward_data = {row.item: float(row.total_inward or 0) for row in frappe.db.sql(inward_query, as_dict=True)}
 
-    # 3. Outward Kits from submitted Census Dispatch
+    # Outward Kits from submitted Census Dispatch
     outward_kits_query = """
         SELECT SUM(total_kits) as total_kits_dispatched
         FROM `tabCensus Dispatch`
@@ -45,7 +46,7 @@ def get_stock_balance():
     outward_kits_result = frappe.db.sql(outward_kits_query, as_dict=True)
     kits_dispatched = float(outward_kits_result[0].total_kits_dispatched or 0) if outward_kits_result else 0.0
 
-    # 4. Outward loose items (if specifically dispatched in items child table)
+    # Outward loose items
     outward_loose_query = """
         SELECT di.item, SUM(di.quantity) as total_outward
         FROM `tabCensus Dispatch Item` di
@@ -55,7 +56,6 @@ def get_stock_balance():
     """
     outward_loose_data = {row.item: float(row.total_outward or 0) for row in frappe.db.sql(outward_loose_query, as_dict=True)}
 
-    # Assemble response
     kit_inward = inward_data.get(kit_item.name, 0.0) if kit_item else 0.0
     kit_balance = kit_inward - kits_dispatched
 
@@ -121,15 +121,10 @@ def get_dispatches_by_state(state=None):
 
 @frappe.whitelist(allow_guest=False)
 def lookup_barcode(query):
-    """
-    Search by Speed Post Barcode (e.g. EN650541929IN) or Unique Box No (e.g. 1192)
-    Returns full box & dispatch summary.
-    """
     query = (query or "").strip()
     if not query:
         return {"found": False, "message": "Please enter or scan a barcode"}
 
-    # Search in boxes
     matched_box = frappe.db.sql("""
         SELECT b.*, d.name as dispatch_id, d.dispatch_date, d.state, d.state_code, 
                d.consignee_name, d.delivery_address, d.pincode, d.status as dispatch_status,
@@ -151,12 +146,8 @@ def lookup_barcode(query):
         }
 
     box_data = matched_box[0]
-    
-    # India Post tracking direct url
-    speed_post_code = box_data.get("speed_post_barcode")
-    speed_post_tracking_url = f"https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx"
+    speed_post_tracking_url = "https://www.indiapost.gov.in/_layouts/15/dop.portal.tracking/trackconsignment.aspx"
 
-    # Kit Items list for reference (Sr. No. 1 to 10)
     items_list = frappe.get_all(
         "Census Item",
         filters={"is_kit_set": 0},
@@ -171,18 +162,112 @@ def lookup_barcode(query):
         "kit_items": items_list
     }
 
-@frappe.whitelist(allow_guest=True)
-def get_barcode_svg_html(code):
-    """Generate inline SVG barcode for Code128 scannable barcode"""
-    try:
-        import barcode
-        from barcode.writer import SVGWriter
-        import io
-        
-        code128 = barcode.get("code128", code, writer=SVGWriter())
-        buffer = io.BytesIO()
-        code128.write(buffer, options={"write_text": False, "module_height": 14.0, "module_width": 0.35, "quiet_zone": 2.0})
-        svg_str = buffer.getvalue().decode("utf-8")
-        return svg_str
-    except Exception as e:
-        return ""
+@frappe.whitelist(allow_guest=False)
+def get_dashboard_analytics():
+    """Returns analytics data for department dashboard charts and map"""
+    stock = get_stock_balance()
+    kit_balance = stock.get("kit_stock", {}).get("balance", 0)
+    kit_dispatched = stock.get("kit_stock", {}).get("total_dispatched", 0)
+
+    # State-wise dispatches
+    state_sql = """
+        SELECT d.state, d.state_code, SUM(d.total_kits) as kits_count, COUNT(b.name) as boxes_count, SUM(b.weight_kg) as total_weight
+        FROM `tabCensus Dispatch` d
+        LEFT JOIN `tabCensus Dispatch Box` b ON b.parent = d.name
+        WHERE d.docstatus = 1
+        GROUP BY d.state
+        ORDER BY kits_count DESC
+    """
+    state_breakdown = frappe.db.sql(state_sql, as_dict=True)
+
+    # Status distribution
+    status_sql = """
+        SELECT status, COUNT(name) as count
+        FROM `tabCensus Dispatch`
+        WHERE docstatus = 1
+        GROUP BY status
+    """
+    status_breakdown = {row.status: row.count for row in frappe.db.sql(status_sql, as_dict=True)}
+
+    return {
+        "kit_stock_balance": kit_balance,
+        "kit_dispatched_total": kit_dispatched,
+        "state_breakdown": state_breakdown,
+        "status_breakdown": status_breakdown
+    }
+
+@frappe.whitelist(allow_guest=False)
+def download_dispatches_csv():
+    """Generates and downloads a custom CSV / Excel report of all dispatches and boxes"""
+    sql = """
+        SELECT 
+            d.name as dispatch_id,
+            d.dispatch_date,
+            d.state,
+            d.state_code,
+            d.consignee_name,
+            d.pincode,
+            d.status,
+            b.box_no,
+            b.unique_box_no,
+            b.speed_post_barcode,
+            b.weight_kg,
+            b.kits_count
+        FROM `tabCensus Dispatch` d
+        LEFT JOIN `tabCensus Dispatch Box` b ON b.parent = d.name
+        WHERE d.docstatus = 1
+        ORDER BY d.dispatch_date DESC, d.name DESC, b.idx ASC
+    """
+    rows = frappe.db.sql(sql, as_dict=True)
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        "Dispatch ID", "Dispatch Date", "State", "State Code", "Consignee Name", 
+        "Pincode", "Status", "Box No", "Unique Box No", "Speed Post Barcode", 
+        "Weight (Kgs)", "Kits in Box"
+    ])
+
+    for r in rows:
+        writer.writerow([
+            r.dispatch_id,
+            r.dispatch_date,
+            r.state,
+            r.state_code,
+            r.consignee_name,
+            r.pincode,
+            r.status,
+            r.box_no,
+            r.unique_box_no,
+            r.speed_post_barcode,
+            r.weight_kg,
+            r.kits_count
+        ])
+
+    frappe.response['result'] = output.getvalue()
+    frappe.response['type'] = 'csv'
+    frappe.response['doctype'] = 'Census_Dispatches_Report'
+
+@frappe.whitelist(allow_guest=False)
+def download_stock_csv():
+    """Generates and downloads current stock balance CSV / Excel report"""
+    stock = get_stock_balance()
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Sr. No", "Item Code", "Item Name", "UOM", "Total Received (Inward)", "Total Dispatched", "Available Stock Balance"])
+
+    kit = stock.get("kit_stock", {})
+    writer.writerow([
+        0, kit.get("item_code"), kit.get("item_name"), kit.get("uom"),
+        kit.get("total_inward"), kit.get("total_dispatched"), kit.get("balance")
+    ])
+
+    for it in stock.get("loose_items", []):
+        writer.writerow([
+            it.get("sr_no"), it.get("item_code"), it.get("item_name"), it.get("uom"),
+            it.get("total_inward"), it.get("total_dispatched"), it.get("balance")
+        ])
+
+    frappe.response['result'] = output.getvalue()
+    frappe.response['type'] = 'csv'
+    frappe.response['doctype'] = 'Census_Stock_Report'

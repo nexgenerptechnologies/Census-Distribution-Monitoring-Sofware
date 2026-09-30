@@ -5,6 +5,7 @@
 {% block page_content %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <style>
   :root {
@@ -565,6 +566,47 @@
     </div>
   </div>
 
+  <!-- Central Web Dashboard for Department -->
+  <div style="background: white; border-radius: 12px; border: 1px solid var(--census-border); padding: 22px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 14px;">
+      <div>
+        <h3 style="margin: 0 0 4px 0; font-size: 18px; font-weight: 800; color: var(--census-navy);">
+          <i class="fa fa-chart-pie text-primary mr-1"></i> Central Distribution Analytics & Reports
+        </h3>
+        <small style="color: var(--text-muted);">Real-time dispatch charts, state coverage, and custom Excel reports for Department Officials.</small>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-sm btn-outline-success" onclick="window.open('/api/method/census_distribution_monitoring_software.census_distribution_monitoring_software.api.download_dispatches_csv', '_blank')">
+          <i class="fa fa-file-excel mr-1"></i> Export Dispatches (Excel/CSV)
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-primary" onclick="window.open('/api/method/census_distribution_monitoring_software.census_distribution_monitoring_software.api.download_stock_csv', '_blank')">
+          <i class="fa fa-file-excel mr-1"></i> Export Stock Inventory (Excel/CSV)
+        </button>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; text-align: center;">
+        <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--census-navy);">
+          Stock Status Ratio (Kits Dispatched vs Available Stock)
+        </div>
+        <div style="max-width: 250px; margin: 0 auto; height: 210px; position: relative;">
+          <canvas id="stockRatioChart"></canvas>
+        </div>
+      </div>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;">
+        <div style="font-weight: 700; font-size: 14px; margin-bottom: 12px; color: var(--census-navy); text-align: center;">
+          Top Destination States (Kits Volume Dispatched)
+        </div>
+        <div style="height: 210px; position: relative;">
+          <canvas id="stateVolumeChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- State Filter & Dispatches Made Section -->
   <div class="dispatches-card">
     <div class="filter-bar">
@@ -633,6 +675,7 @@
 
   document.addEventListener("DOMContentLoaded", function() {
     loadDispatches("");
+    loadDashboardAnalytics();
 
     // State filter change
     document.getElementById("state-filter-select").addEventListener("change", function(e) {
@@ -846,6 +889,70 @@
         console.warn(err);
       });
     }
+  }
+
+  function loadDashboardAnalytics() {
+    frappe.call({
+      method: "census_distribution_monitoring_software.census_distribution_monitoring_software.api.get_dashboard_analytics",
+      callback: function(r) {
+        if (!r.message) return;
+        const data = r.message;
+
+        // Stock Ratio Doughnut
+        const ctxRatio = document.getElementById("stockRatioChart");
+        if (ctxRatio) {
+          new Chart(ctxRatio, {
+            type: "doughnut",
+            data: {
+              labels: ["Available in Stock", "Dispatched"],
+              datasets: [{
+                data: [data.kit_stock_balance || 0, data.kit_dispatched_total || 0],
+                backgroundColor: ["#10b981", "#3b82f6"],
+                borderWidth: 2
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: { position: "bottom" }
+              }
+            }
+          });
+        }
+
+        // State Volume Bar Chart
+        const ctxVolume = document.getElementById("stateVolumeChart");
+        if (ctxVolume) {
+          const states = (data.state_breakdown || []).slice(0, 8);
+          const labels = states.map(s => s.state.replace(/\s*\(\d+\)/, ""));
+          const counts = states.map(s => s.kits_count);
+
+          new Chart(ctxVolume, {
+            type: "bar",
+            data: {
+              labels: labels.length > 0 ? labels : ["No Dispatches Yet"],
+              datasets: [{
+                label: "Kits Dispatched",
+                data: counts.length > 0 ? counts : [0],
+                backgroundColor: "#002b66",
+                borderRadius: 4
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: { beginAtZero: true }
+              },
+              plugins: {
+                legend: { display: false }
+              }
+            }
+          });
+        }
+      }
+    });
   }
 </script>
 {% endblock %}

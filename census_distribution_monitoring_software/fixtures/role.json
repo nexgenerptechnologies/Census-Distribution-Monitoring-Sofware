@@ -2,7 +2,7 @@
  {
   "doctype": "Role",
   "role_name": "Census Portal User",
-  "desk_access": 0,
+  "desk_access": 1,
   "disabled": 0
  },
  {

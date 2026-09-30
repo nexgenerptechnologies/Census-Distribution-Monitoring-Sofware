@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_kit",
+  "kit_item_name",
+  "kit_available_stock",
+  "column_break_kit",
+  "kit_total_inward",
+  "kit_total_dispatched",
+  "section_loose",
+  "loose_items"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_kit",
+   "fieldtype": "Section Break",
+   "label": "Enumerator Kit Set Stock (Finished Goods)"
+  },
+  {
+   "default": "Enumerator Kit Set",
+   "fieldname": "kit_item_name",
+   "fieldtype": "Data",
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kit_available_stock",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Available Kit Sets",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_kit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kit_total_inward",
+   "fieldtype": "Float",
+   "label": "Total Kits Received (Inward)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "kit_total_dispatched",
+   "fieldtype": "Float",
+   "label": "Total Kits Dispatched",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_loose",
+   "fieldtype": "Section Break",
+   "label": "Loose Items Inventory (Sr. No. 1 to 10)"
+  },
+  {
+   "fieldname": "loose_items",
+   "fieldtype": "Table",
+   "label": "Constituent Loose Items",
+   "options": "Census Stock Item Row",
+   "read_only": 1
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Stock",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Portal User"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
