@@ -1,1 +1,1 @@
-# Patches for Census Distribution Monitoring Software
+census_distribution_monitoring_software.patches.v1_0.load_initial_data.execute

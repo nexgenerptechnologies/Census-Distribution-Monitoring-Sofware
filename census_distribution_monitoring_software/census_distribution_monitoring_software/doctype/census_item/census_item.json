@@ -14,7 +14,9 @@
   "uom",
   "is_active",
   "section_break_1",
-  "description"
+  "description",
+  "section_break_kit",
+  "kit_items"
  ],
  "fields": [
   {
@@ -74,6 +76,19 @@
    "fieldname": "description",
    "fieldtype": "Small Text",
    "label": "Description"
+  },
+  {
+   "depends_on": "eval:doc.is_kit_set == 1",
+   "fieldname": "section_break_kit",
+   "fieldtype": "Section Break",
+   "label": "Kit Bundle Composition (Constituent Items)"
+  },
+  {
+   "depends_on": "eval:doc.is_kit_set == 1",
+   "fieldname": "kit_items",
+   "fieldtype": "Table",
+   "label": "Kit Bundle Items",
+   "options": "Census Kit Item"
   }
  ],
  "index_web_pages_for_search": 1,

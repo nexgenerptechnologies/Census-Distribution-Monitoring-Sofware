@@ -1,6 +1,4 @@
 import frappe
-import json
-import os
 
 def after_install():
     load_default_data()
@@ -10,7 +8,7 @@ def after_migrate():
 
 @frappe.whitelist()
 def reload_defaults():
-    """Whitelisted function that can be called anytime to ensure default items and states exist."""
+    """Whitelisted function that can be called anytime to ensure default items, kit bundle, and states exist."""
     return load_default_data()
 
 def load_default_data():
@@ -20,20 +18,12 @@ def load_default_data():
     frappe.db.commit()
     return {
         "status": "success",
-        "message": f"Loaded {items_created} Items, {states_created} States, Settings updated."
+        "message": f"Successfully loaded {items_created} Items (including Enumerator Kit Bundle with 10 constituent items), {states_created} States, and configured Settings."
     }
 
 def create_items():
-    items = [
-        {
-            "item_code": "KIT-ENUMERATOR-01",
-            "item_name": "Enumerator Kit Set",
-            "sr_no": 0,
-            "is_kit_set": 1,
-            "uom": "Set",
-            "is_active": 1,
-            "description": "Complete Enumerator Kit Set containing items Sr. No. 1 to 10"
-        },
+    # 1. The 10 Loose Items
+    loose_items = [
         {
             "item_code": "LOOSE-01-BAG",
             "item_name": "Water Resistant Carry Bag with Census Logo",
@@ -41,7 +31,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Water Resistant Carry Bag with Census Logo"
+            "description": "Water Resistant Carry Bag with Census Logo (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-02-BOARD",
@@ -50,7 +40,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Foldable Writing Board with 2 detachable binder clips"
+            "description": "Foldable Writing Board with 2 detachable binder clips (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-03-NOTEPAD",
@@ -59,7 +49,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Spiral Notepad"
+            "description": "Spiral Notepad (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-04-CAP",
@@ -68,7 +58,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "White Cap with Census Logo"
+            "description": "White Cap with Census Logo (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-05-LANYARD",
@@ -77,7 +67,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Lanyard for Identity Card with transparent pouch"
+            "description": "Lanyard for Identity Card with transparent pouch (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-06-MARKER",
@@ -86,7 +76,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Marker Pens (Red-1 and Black-1) (2 per Kit)"
+            "description": "Marker Pens (Red-1 and Black-1) (Qty 2 per Kit)"
         },
         {
             "item_code": "LOOSE-07-PEN",
@@ -95,7 +85,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Ball Point Pen (Blue-1 and Black-1) (2 per Kit)"
+            "description": "Ball Point Pen (Blue-1 and Black-1) (Qty 2 per Kit)"
         },
         {
             "item_code": "LOOSE-08-PENCIL",
@@ -104,7 +94,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Pencil (2 per Kit)"
+            "description": "Pencil (Qty 2 per Kit)"
         },
         {
             "item_code": "LOOSE-09-SHARPENER",
@@ -113,7 +103,7 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Sharpener"
+            "description": "Sharpener (Qty 1 per Kit)"
         },
         {
             "item_code": "LOOSE-10-ERASER",
@@ -122,17 +112,61 @@ def create_items():
             "is_kit_set": 0,
             "uom": "Nos",
             "is_active": 1,
-            "description": "Eraser"
+            "description": "Eraser (Qty 1 per Kit)"
         }
     ]
 
     count = 0
-    for it in items:
+    for it in loose_items:
         if not frappe.db.exists("Census Item", it["item_code"]):
             doc = frappe.new_doc("Census Item")
             doc.update(it)
             doc.insert(ignore_permissions=True)
             count += 1
+        else:
+            doc = frappe.get_doc("Census Item", it["item_code"])
+            doc.update(it)
+            doc.save(ignore_permissions=True)
+
+    # 2. Finished Goods: Enumerator Kit Set with Kit Bundle child table
+    kit_bundle_items = [
+        {"item": "LOOSE-01-BAG", "item_name": "Water Resistant Carry Bag with Census Logo", "sr_no": 1, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-02-BOARD", "item_name": "Foldable Writing Board with 2 detachable binder clips", "sr_no": 2, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-03-NOTEPAD", "item_name": "Spiral Notepad", "sr_no": 3, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-04-CAP", "item_name": "White Cap with Census Logo", "sr_no": 4, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-05-LANYARD", "item_name": "Lanyard for Identity Card with transparent pouch", "sr_no": 5, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-06-MARKER", "item_name": "Marker Pens (Red-1 and Black-1)", "sr_no": 6, "quantity": 2, "uom": "Nos"},
+        {"item": "LOOSE-07-PEN", "item_name": "Ball Point Pen (Blue-1 and Black-1)", "sr_no": 7, "quantity": 2, "uom": "Nos"},
+        {"item": "LOOSE-08-PENCIL", "item_name": "Pencil", "sr_no": 8, "quantity": 2, "uom": "Nos"},
+        {"item": "LOOSE-09-SHARPENER", "item_name": "Sharpener", "sr_no": 9, "quantity": 1, "uom": "Nos"},
+        {"item": "LOOSE-10-ERASER", "item_name": "Eraser", "sr_no": 10, "quantity": 1, "uom": "Nos"},
+    ]
+
+    kit_code = "KIT-ENUMERATOR-01"
+    if not frappe.db.exists("Census Item", kit_code):
+        kit_doc = frappe.new_doc("Census Item")
+        kit_doc.item_code = kit_code
+        kit_doc.item_name = "Enumerator Kit Set"
+        kit_doc.sr_no = 0
+        kit_doc.is_kit_set = 1
+        kit_doc.uom = "Set"
+        kit_doc.is_active = 1
+        kit_doc.description = "Complete Enumerator Kit Set containing items Sr. No. 1 to 10 as per official Annexure-I"
+        
+        for k_item in kit_bundle_items:
+            kit_doc.append("kit_items", k_item)
+            
+        kit_doc.insert(ignore_permissions=True)
+        count += 1
+    else:
+        kit_doc = frappe.get_doc("Census Item", kit_code)
+        kit_doc.is_kit_set = 1
+        kit_doc.uom = "Set"
+        kit_doc.kit_items = []
+        for k_item in kit_bundle_items:
+            kit_doc.append("kit_items", k_item)
+        kit_doc.save(ignore_permissions=True)
+
     return count
 
 def create_states():
