@@ -11,7 +11,29 @@ def reload_defaults():
     """Whitelisted function that can be called anytime to ensure default items, kit bundle, and states exist."""
     return load_default_data()
 
+def reload_app_doctypes():
+    """Reload all DocTypes to guarantee schema and fields exist in memory and DB"""
+    doctypes = [
+        "census_kit_item",
+        "census_item",
+        "census_state",
+        "census_settings",
+        "census_stock_item_row",
+        "census_stock",
+        "census_stock_entry_item",
+        "census_stock_entry",
+        "census_dispatch_box",
+        "census_dispatch_item",
+        "census_dispatch",
+    ]
+    for dt in doctypes:
+        try:
+            frappe.reload_doc("census_distribution_monitoring_software", "doctype", dt, force=True)
+        except Exception:
+            pass
+
 def load_default_data():
+    reload_app_doctypes()
     items_created = create_items()
     states_created = create_states()
     settings_configured = configure_settings()
@@ -154,8 +176,9 @@ def create_items():
         kit_doc.is_active = 1
         kit_doc.description = "Complete Enumerator Kit Set containing items Sr. No. 1 to 10 as per official Annexure-I"
         
-        for k_item in kit_bundle_items:
-            kit_doc.append("kit_items", k_item)
+        if hasattr(kit_doc.meta, "has_field") and kit_doc.meta.has_field("kit_items"):
+            for k_item in kit_bundle_items:
+                kit_doc.append("kit_items", k_item)
             
         kit_doc.insert(ignore_permissions=True)
         count += 1
@@ -163,9 +186,10 @@ def create_items():
         kit_doc = frappe.get_doc("Census Item", kit_code)
         kit_doc.is_kit_set = 1
         kit_doc.uom = "Set"
-        kit_doc.kit_items = []
-        for k_item in kit_bundle_items:
-            kit_doc.append("kit_items", k_item)
+        if hasattr(kit_doc.meta, "has_field") and kit_doc.meta.has_field("kit_items"):
+            kit_doc.kit_items = []
+            for k_item in kit_bundle_items:
+                kit_doc.append("kit_items", k_item)
         kit_doc.save(ignore_permissions=True)
 
     return count
