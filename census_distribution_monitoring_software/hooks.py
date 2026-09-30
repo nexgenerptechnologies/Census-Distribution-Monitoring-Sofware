@@ -23,12 +23,8 @@ website_route_rules = [
     {"from_route": "/distribution", "to_route": "tracking"},
 ]
 
-# Fixtures to export and import on install
-fixtures = [
-    {"dt": "Role", "filters": [["name", "in", ["Census Portal User", "Census Manager"]]]},
-    {"dt": "Census State"},
-    {"dt": "Census Item"},
-]
+# Fixtures handled cleanly by after_migrate hook
+# fixtures = []
 
 after_install = "census_distribution_monitoring_software.setup_data.after_install"
 after_migrate = "census_distribution_monitoring_software.setup_data.after_migrate"
