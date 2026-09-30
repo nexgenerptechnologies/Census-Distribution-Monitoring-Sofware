@@ -56,8 +56,21 @@ def get_stock_balance():
     """
     outward_loose_data = {row.item: float(row.total_outward or 0) for row in frappe.db.sql(outward_loose_query, as_dict=True)}
 
+    KIT_MULTIPLIERS = {
+        1: 1,  # Carry Bag
+        2: 1,  # Writing Board
+        3: 1,  # Spiral Notepad
+        4: 1,  # White Cap
+        5: 1,  # Lanyard
+        6: 2,  # Marker Pens (2 per Kit)
+        7: 2,  # Ball Point Pens (2 per Kit)
+        8: 2,  # Pencils (2 per Kit)
+        9: 1,  # Sharpener
+        10: 1  # Eraser
+    }
+
     kit_inward = inward_data.get(kit_item.name, 0.0) if kit_item else 0.0
-    kit_balance = kit_inward - kits_dispatched
+    kit_balance = max(0.0, kit_inward - kits_dispatched)
 
     kit_stock = {
         "item_code": kit_item.item_code if kit_item else "KIT-ENUMERATOR-01",
@@ -65,21 +78,33 @@ def get_stock_balance():
         "uom": kit_item.uom if kit_item else "Set",
         "total_inward": kit_inward,
         "total_dispatched": kits_dispatched,
-        "balance": max(0.0, kit_balance)
+        "balance": kit_balance
     }
 
     loose_stock = []
     for item in loose_items:
-        inward_qty = inward_data.get(item.name, 0.0)
-        outward_qty = outward_loose_data.get(item.name, 0.0)
+        multiplier = KIT_MULTIPLIERS.get(item.sr_no, 1)
+        raw_inward = inward_data.get(item.name, 0.0)
+        raw_dispatched = outward_loose_data.get(item.name, 0.0)
+        extra_loose = max(0.0, raw_inward - raw_dispatched)
+
+        in_kits = kit_balance * multiplier
+        total_available = in_kits + extra_loose
+
+        total_received = (kit_inward * multiplier) + raw_inward
+        total_dispatched = (kits_dispatched * multiplier) + raw_dispatched
+
         loose_stock.append({
             "sr_no": item.sr_no,
             "item_code": item.item_code,
             "item_name": item.item_name,
+            "qty_per_kit": multiplier,
+            "in_kits": in_kits,
+            "extra_loose": extra_loose,
             "uom": item.uom,
-            "total_inward": inward_qty,
-            "total_dispatched": outward_qty,
-            "balance": max(0.0, inward_qty - outward_qty)
+            "total_inward": total_received,
+            "total_dispatched": total_dispatched,
+            "balance": total_available
         })
 
     return {
@@ -271,3 +296,54 @@ def download_stock_csv():
     frappe.response['result'] = output.getvalue()
     frappe.response['type'] = 'csv'
     frappe.response['doctype'] = 'Census_Stock_Report'
+
+@frappe.whitelist(allow_guest=False)
+def get_order_vs_dispatch_summary():
+    """
+    Returns:
+    - State-wise Order vs Dispatch summary (Ordered, Dispatched, Pending, Fulfillment %)
+    - Today's Dispatched kits & boxes
+    - Recent Date-wise dispatches
+    """
+    today = frappe.utils.today()
+
+    # Today's dispatch
+    today_sql = """
+        SELECT SUM(d.total_kits) as today_kits, COUNT(d.name) as today_dispatches, COUNT(b.name) as today_boxes
+        FROM `tabCensus Dispatch` d
+        LEFT JOIN `tabCensus Dispatch Box` b ON b.parent = d.name
+        WHERE d.dispatch_date = %(today)s AND d.docstatus = 1
+    """
+    today_res = frappe.db.sql(today_sql, {"today": today}, as_dict=True)
+    today_stats = {
+        "today_kits": float(today_res[0].today_kits or 0) if today_res else 0,
+        "today_dispatches": int(today_res[0].today_dispatches or 0) if today_res else 0,
+        "today_boxes": int(today_res[0].today_boxes or 0) if today_res else 0,
+    }
+
+    # State-wise Orders vs Dispatches
+    orders = frappe.get_all(
+        "Census Order",
+        fields=["name", "order_no", "state", "order_date", "ordered_kits", "dispatched_kits", "pending_kits", "completion_percent", "status"],
+        order_by="order_date desc"
+    )
+
+    # Date-wise dispatches
+    recent_dispatches = frappe.db.sql("""
+        SELECT d.dispatch_date, d.state, d.total_kits, d.name as dispatch_id, d.consignee_name, COUNT(b.name) as boxes_count
+        FROM `tabCensus Dispatch` d
+        LEFT JOIN `tabCensus Dispatch Box` b ON b.parent = d.name
+        WHERE d.docstatus = 1
+        GROUP BY d.name
+        ORDER BY d.dispatch_date DESC
+        LIMIT 20
+    """, as_dict=True)
+
+    stock = get_stock_balance()
+
+    return {
+        "today_stats": today_stats,
+        "orders": orders,
+        "recent_dispatches": recent_dispatches,
+        "stock": stock
+    }

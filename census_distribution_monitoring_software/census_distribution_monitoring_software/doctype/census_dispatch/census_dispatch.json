@@ -8,6 +8,7 @@
  "field_order": [
   "dispatch_date",
   "state",
+  "order",
   "state_code",
   "consignee_name",
   "delivery_address",
@@ -43,6 +44,14 @@
    "label": "Destination State",
    "options": "Census State",
    "reqd": 1
+  },
+  {
+   "fieldname": "order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Census Order",
+   "options": "Census Order"
   },
   {
    "fetch_from": "state.state_code",

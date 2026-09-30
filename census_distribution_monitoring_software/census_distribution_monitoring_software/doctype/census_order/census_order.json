@@ -1,0 +1,162 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:order_no",
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "order_no",
+  "state",
+  "order_date",
+  "column_break_1",
+  "ordered_kits",
+  "dispatched_kits",
+  "pending_kits",
+  "completion_percent",
+  "status",
+  "section_break_dispatches",
+  "dispatches",
+  "section_break_notes",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "order_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Order / Indent No.",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Destination State",
+   "options": "Census State",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "order_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Order Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ordered_kits",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Kits Ordered",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "dispatched_kits",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Dispatched Kits",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "pending_kits",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Pending Kits to Dispatch",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "completion_percent",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Fulfillment %",
+   "read_only": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Order Status",
+   "options": "Pending\nPartially Dispatched\nCompleted\nCancelled"
+  },
+  {
+   "fieldname": "section_break_dispatches",
+   "fieldtype": "Section Break",
+   "label": "Date-Wise Dispatches Fulfilled"
+  },
+  {
+   "fieldname": "dispatches",
+   "fieldtype": "Table",
+   "label": "Dispatches",
+   "options": "Census Order Dispatch Row"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Order",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Portal User"
+  }
+ ],
+ "sort_field": "order_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "order_no",
+ "track_changes": 1
+}

@@ -48,6 +48,20 @@ class CensusDispatch(Document):
                     alert=True
                 )
 
+        if self.order:
+            self.sync_order()
+
+    def on_cancel(self):
+        self.status = "Draft"
+        if self.order:
+            self.sync_order()
+
+    def sync_order(self):
+        if not self.order:
+            return
+        from census_distribution_monitoring_software.census_distribution_monitoring_software.doctype.census_order.census_order import sync_order_dispatches
+        sync_order_dispatches(self.order)
+
 def flt(val):
     try:
         return float(val or 0.0)

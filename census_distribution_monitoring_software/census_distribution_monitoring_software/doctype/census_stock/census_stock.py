@@ -3,8 +3,7 @@ from frappe.model.document import Document
 from census_distribution_monitoring_software.census_distribution_monitoring_software.api import get_stock_balance
 
 class CensusStock(Document):
-    def load_from_db(self):
-        super().load_from_db()
+    def before_save(self):
         self.populate_live_stock()
 
     def populate_live_stock(self):
@@ -22,11 +21,15 @@ class CensusStock(Document):
                 "item_code": it.get("item_code"),
                 "item_name": it.get("item_name"),
                 "uom": it.get("uom"),
-                "total_inward": it.get("total_inward"),
-                "total_dispatched": it.get("total_dispatched"),
-                "available_balance": it.get("balance"),
+                "total_inward": it.get("total_inward", 0.0),
+                "total_dispatched": it.get("total_dispatched", 0.0),
+                "available_balance": it.get("balance", 0.0),
             })
 
 @frappe.whitelist()
-def get_live_stock_data():
-    return get_stock_balance()
+def refresh_and_get_stock():
+    doc = frappe.get_single("Census Stock")
+    doc.populate_live_stock()
+    doc.save(ignore_permissions=True)
+    frappe.db.commit()
+    return doc

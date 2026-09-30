@@ -1,0 +1,161 @@
+{
+ "app": "census_distribution_monitoring_software",
+ "category": "Modules",
+ "charts": [],
+ "content": "[{\"id\":\"welcome_head\",\"type\":\"header\",\"data\":{\"text\":\"Census Distribution Monitoring Software\",\"col\":12}},{\"id\":\"card_stock\",\"type\":\"card\",\"data\":{\"card_name\":\"Census Operations\",\"col\":12}}]",
+ "creation": "2026-09-30 18:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "box",
+ "idx": 1,
+ "indicator_color": "blue",
+ "is_hidden": 0,
+ "is_standard": 1,
+ "label": "Census Distribution",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Operations",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Stock",
+   "link_count": 0,
+   "link_to": "Census Stock",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Order",
+   "link_count": 0,
+   "link_to": "Census Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Pending Order",
+   "link_count": 0,
+   "link_to": "Census Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Dispatch",
+   "link_count": 0,
+   "link_to": "Census Dispatch",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Masters",
+   "link_count": 0,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Item",
+   "link_count": 0,
+   "link_to": "Census Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census State",
+   "link_count": 0,
+   "link_to": "Census State",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Census Settings",
+   "link_count": 0,
+   "link_to": "Census Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Distribution",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Census Portal User"
+  },
+  {
+   "role": "Census Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Purple",
+   "doc_view": "Form",
+   "label": "Census Stock",
+   "link_to": "Census Stock",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Census Order",
+   "link_to": "Census Order",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Census Pending Order",
+   "link_to": "Census Order",
+   "stats_filter": "[[\"Census Order\",\"status\",\"!=\",\"Completed\"]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Census Dispatch",
+   "link_to": "Census Dispatch",
+   "type": "DocType"
+  }
+ ],
+ "title": "Census Distribution"
+}

@@ -22,6 +22,8 @@ def reload_app_doctypes():
         "census_stock",
         "census_stock_entry_item",
         "census_stock_entry",
+        "census_order_dispatch_row",
+        "census_order",
         "census_dispatch_box",
         "census_dispatch_item",
         "census_dispatch",
@@ -32,16 +34,22 @@ def reload_app_doctypes():
         except Exception:
             pass
 
+    try:
+        frappe.reload_doc("census_distribution_monitoring_software", "workspace", "census_distribution", force=True)
+    except Exception:
+        pass
+
 def load_default_data():
     reload_app_doctypes()
     items_created = create_items()
     states_created = create_states()
     settings_configured = configure_settings()
     configure_permissions()
+    setup_punjab_scenario()
     frappe.db.commit()
     return {
         "status": "success",
-        "message": f"Successfully loaded {items_created} Items (including Enumerator Kit Bundle with 10 constituent items), {states_created} States, and configured Settings."
+        "message": f"Successfully loaded {items_created} Items, {states_created} States, configured Settings, Punjab Order Scenario & Stock."
     }
 
 def create_items():
@@ -287,3 +295,116 @@ def configure_permissions():
         stock_doc.save(ignore_permissions=True)
     except Exception:
         pass
+
+def setup_punjab_scenario():
+    """
+    Setup the requested Punjab scenario:
+    1. Order receipt: 100,000 from Punjab State on 15th Sep 2026.
+    2. Dispatched 35,000:
+       - 16th Sep: 10,000
+       - 19th Sep: 7,000
+       - 23rd Sep: 13,000
+       - 28th Sep: 5,000
+    3. Inward Stock of 40,000 kits so that remaining kit stock is exactly 5,000 kits
+       and loose items available in stock for 5,000 sets (5k bags, boards, caps, notepads, lanyards, sharpeners, erasers; 10k pens, markers, pencils).
+    """
+    state_name = "Punjab (03)"
+    if not frappe.db.exists("Census State", state_name):
+        return
+
+    # 1. Inward Stock of 40,000 Kits
+    ref_no = "INWARD-KIT-BATCH-01"
+    if not frappe.db.exists("Census Stock Entry", {"reference_no": ref_no}):
+        try:
+            entry = frappe.new_doc("Census Stock Entry")
+            entry.entry_type = "Inward (Receipt)"
+            entry.posting_date = "2026-09-14"
+            entry.reference_no = ref_no
+            entry.notes = "Initial Production Inward of Enumerator Kit Sets"
+            entry.append("items", {
+                "item": "KIT-ENUMERATOR-01",
+                "item_name": "Enumerator Kit Set",
+                "quantity": 40000,
+                "uom": "Set"
+            })
+            entry.insert(ignore_permissions=True)
+            entry.submit()
+        except Exception:
+            pass
+
+    # 2. Punjab Order: 100,000 Kits on 15-Sep-2026
+    order_no = "ORD-PB-2026-001"
+    if not frappe.db.exists("Census Order", order_no):
+        try:
+            order = frappe.new_doc("Census Order")
+            order.order_no = order_no
+            order.state = state_name
+            order.order_date = "2026-09-15"
+            order.ordered_kits = 100000
+            order.status = "Pending"
+            order.notes = "State Indent for 1,00,000 Enumerator Kits for Punjab Census Operations"
+            order.insert(ignore_permissions=True)
+        except Exception:
+            pass
+
+    # 3. Dispatches for Punjab (Total 35,000)
+    dispatch_plans = [
+        {"date": "2026-09-16", "kits": 10000, "boxes": 50, "start_barcode": 40001, "notes": "Batch 1: 10,000 kits dispatched to Punjab"},
+        {"date": "2026-09-19", "kits": 7000, "boxes": 35, "start_barcode": 40051, "notes": "Batch 2: 7,000 kits dispatched to Punjab"},
+        {"date": "2026-09-23", "kits": 13000, "boxes": 65, "start_barcode": 40086, "notes": "Batch 3: 13,000 kits dispatched to Punjab"},
+        {"date": "2026-09-28", "kits": 5000, "boxes": 25, "start_barcode": 40151, "notes": "Batch 4: 5,000 kits dispatched to Punjab"}
+    ]
+
+    for plan in dispatch_plans:
+        # Check if already dispatched for this date and kits count
+        existing = frappe.get_all(
+            "Census Dispatch",
+            filters={"state": state_name, "dispatch_date": plan["date"], "total_kits": plan["kits"]}
+        )
+        if not existing:
+            try:
+                disp = frappe.new_doc("Census Dispatch")
+                disp.dispatch_date = plan["date"]
+                disp.state = state_name
+                disp.order = order_no
+                disp.status = "Dispatched"
+                disp.total_kits = plan["kits"]
+                disp.total_boxes = plan["boxes"]
+                disp.total_weight_kg = round(plan["boxes"] * 12.5, 2)
+                disp.notes = plan["notes"]
+
+                kits_per_box = int(plan["kits"] / plan["boxes"])
+                cur_code = plan["start_barcode"]
+
+                for b_idx in range(1, plan["boxes"] + 1):
+                    barcode = f"EN{cur_code:08d}IN"
+                    box_num = f"PB-{plan['date'].replace('-', '')}-{b_idx:03d}"
+                    disp.append("boxes", {
+                        "box_no": b_idx,
+                        "unique_box_no": box_num,
+                        "speed_post_barcode": barcode,
+                        "kits_count": kits_per_box,
+                        "weight_kg": 12.5
+                    })
+                    cur_code += 1
+
+                disp.insert(ignore_permissions=True)
+                disp.submit()
+            except Exception:
+                pass
+
+    # 4. Sync Order
+    try:
+        from census_distribution_monitoring_software.census_distribution_monitoring_software.doctype.census_order.census_order import sync_order_dispatches
+        sync_order_dispatches(order_no)
+    except Exception:
+        pass
+
+    # 5. Populate Census Stock
+    try:
+        stock_doc = frappe.get_single("Census Stock")
+        stock_doc.populate_live_stock()
+        stock_doc.save(ignore_permissions=True)
+    except Exception:
+        pass
+
