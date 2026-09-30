@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:item_code",
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "sr_no",
+  "column_break_1",
+  "is_kit_set",
+  "uom",
+  "is_active",
+  "section_break_1",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Item Name",
+   "reqd": 1
+  },
+  {
+   "description": "0 for Enumerator Kit, 1 to 10 for loose items",
+   "fieldname": "sr_no",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Sr. No."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_kit_set",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Is Kit Set"
+  },
+  {
+   "default": "Nos",
+   "fieldname": "uom",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "UOM"
+  },
+  {
+   "default": "1",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "section_break_1",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Item",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Portal User"
+  }
+ ],
+ "sort_field": "sr_no",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "item_name",
+ "track_changes": 1
+}

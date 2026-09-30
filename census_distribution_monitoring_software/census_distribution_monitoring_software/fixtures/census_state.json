@@ -1,0 +1,263 @@
+[
+ {
+  "doctype": "Census State",
+  "display_name": "Jammu & Kashmir (01)",
+  "state_name": "Jammu & Kashmir",
+  "state_code": "01",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS JAMMU & KASHMIR"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Himachal Pradesh (02)",
+  "state_name": "Himachal Pradesh",
+  "state_code": "02",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS HIMACHAL PRADESH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Punjab (03)",
+  "state_name": "Punjab",
+  "state_code": "03",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS PUNJAB"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Chandigarh (04)",
+  "state_name": "Chandigarh",
+  "state_code": "04",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS CHANDIGARH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Uttarakhand (05)",
+  "state_name": "Uttarakhand",
+  "state_code": "05",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS UTTARAKHAND"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Haryana (06)",
+  "state_name": "Haryana",
+  "state_code": "06",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS HARYANA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "NCT of Delhi (07)",
+  "state_name": "NCT of Delhi",
+  "state_code": "07",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS DELHI"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Rajasthan (08)",
+  "state_name": "Rajasthan",
+  "state_code": "08",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS RAJASTHAN"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Uttar Pradesh (09)",
+  "state_name": "Uttar Pradesh",
+  "state_code": "09",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS UTTAR PRADESH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Bihar (10)",
+  "state_name": "Bihar",
+  "state_code": "10",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS BIHAR"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Sikkim (11)",
+  "state_name": "Sikkim",
+  "state_code": "11",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS SIKKIM"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Arunachal Pradesh (12)",
+  "state_name": "Arunachal Pradesh",
+  "state_code": "12",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS ARUNACHAL PRADESH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Nagaland (13)",
+  "state_name": "Nagaland",
+  "state_code": "13",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS NAGALAND"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Manipur (14)",
+  "state_name": "Manipur",
+  "state_code": "14",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS MANIPUR"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Mizoram (15)",
+  "state_name": "Mizoram",
+  "state_code": "15",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS MIZORAM"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Tripura (16)",
+  "state_name": "Tripura",
+  "state_code": "16",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS TRIPURA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Meghalaya (17)",
+  "state_name": "Meghalaya",
+  "state_code": "17",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS MEGHALAYA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Assam (18)",
+  "state_name": "Assam",
+  "state_code": "18",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS ASSAM",
+  "delivery_address": "'Achyut Plaza', Behind Hub Complex,\nGUWAHATI-781005",
+  "pincode": "781005"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "West Bengal (19)",
+  "state_name": "West Bengal",
+  "state_code": "19",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS WEST BENGAL"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Jharkhand (20)",
+  "state_name": "Jharkhand",
+  "state_code": "20",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS JHARKHAND"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Odisha (21)",
+  "state_name": "Odisha",
+  "state_code": "21",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS ODISHA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Chhattisgarh (22)",
+  "state_name": "Chhattisgarh",
+  "state_code": "22",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS CHHATTISGARH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Madhya Pradesh (23)",
+  "state_name": "Madhya Pradesh",
+  "state_code": "23",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS MADHYA PRADESH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Gujarat (24)",
+  "state_name": "Gujarat",
+  "state_code": "24",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS GUJARAT"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Daman & Diu (25)",
+  "state_name": "Daman & Diu",
+  "state_code": "25",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS DAMAN & DIU"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Dadra & Nagar Haveli (26)",
+  "state_name": "Dadra & Nagar Haveli",
+  "state_code": "26",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS DADRA & NAGAR HAVELI"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Maharashtra (27)",
+  "state_name": "Maharashtra",
+  "state_code": "27",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS MAHARASHTRA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Andhra Pradesh (28)",
+  "state_name": "Andhra Pradesh",
+  "state_code": "28",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS ANDHRA PRADESH"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Karnataka (29)",
+  "state_name": "Karnataka",
+  "state_code": "29",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS KARNATAKA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Goa (30)",
+  "state_name": "Goa",
+  "state_code": "30",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS GOA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Lakshadweep (31)",
+  "state_name": "Lakshadweep",
+  "state_code": "31",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS LAKSHADWEEP"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Kerala (32)",
+  "state_name": "Kerala",
+  "state_code": "32",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS KERALA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Tamil Nadu (33)",
+  "state_name": "Tamil Nadu",
+  "state_code": "33",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS TAMIL NADU"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Puducherry (34)",
+  "state_name": "Puducherry",
+  "state_code": "34",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS PUDUCHERRY"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Andaman & Nicobar Islands (35)",
+  "state_name": "Andaman & Nicobar Islands",
+  "state_code": "35",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS ANDAMAN & NICOBAR"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Telangana (36)",
+  "state_name": "Telangana",
+  "state_code": "36",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS TELANGANA"
+ },
+ {
+  "doctype": "Census State",
+  "display_name": "Ladakh (37)",
+  "state_name": "Ladakh",
+  "state_code": "37",
+  "consignee_name": "DIRECTOR OF CENSUS OPERATIONS LADAKH"
+ }
+]

@@ -1,0 +1,427 @@
+{% set settings = frappe.get_single("Census Settings") %}
+<style>
+  @media print {
+    @page {
+      size: A4 landscape;
+      margin: 10mm;
+    }
+    .label-page {
+      page-break-after: always;
+      break-after: page;
+    }
+    .label-page:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+  }
+
+  .label-container {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    color: #111;
+    margin: 0 auto 30px auto;
+    max-width: 960px;
+    background: #fff;
+    padding: 10px;
+  }
+
+  .annexure-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+  .annexure-title {
+    text-align: center;
+    flex-grow: 1;
+    font-size: 15px;
+  }
+
+  .annexure-tag {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .label-outer-box {
+    border: 2px solid #222;
+    border-radius: 6px;
+    padding: 14px 18px;
+    background: #fafafa;
+    position: relative;
+  }
+
+  .label-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .logo-box {
+    width: 140px;
+    text-align: center;
+  }
+
+  .census-badge {
+    display: inline-block;
+    border: 2px solid #002b66;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    padding: 6px;
+    text-align: center;
+    background: #fff;
+    color: #002b66;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+  }
+
+  .census-badge-hi {
+    font-size: 8px;
+    font-weight: bold;
+  }
+
+  .census-badge-year {
+    font-size: 15px;
+    font-weight: 900;
+    color: #d32f2f;
+    line-height: 1.1;
+  }
+
+  .census-badge-en {
+    font-size: 8px;
+    font-weight: bold;
+  }
+
+  .section-tag {
+    font-size: 9px;
+    font-weight: bold;
+    background: #002b66;
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-top: 3px;
+    display: inline-block;
+  }
+
+  .project-header-box {
+    text-align: center;
+    flex-grow: 1;
+    padding: 0 15px;
+  }
+
+  .warning-red-heading {
+    color: #c62828;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .project-title {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-decoration: underline;
+    margin-top: 8px;
+    color: #000;
+  }
+
+  .top-right-box {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 8px 12px;
+    background: #fff;
+    min-width: 170px;
+    font-size: 14px;
+  }
+
+  .top-right-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+
+  .top-right-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .top-right-label {
+    font-weight: bold;
+  }
+
+  .top-right-val {
+    font-weight: 900;
+  }
+
+  /* Mid Row */
+  .label-mid-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .barcode-card {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 10px 14px;
+    background: #fff;
+    flex: 3;
+  }
+
+  .booked-from-text {
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .barcode-wrapper {
+    text-align: center;
+    padding: 4px 0;
+  }
+
+  .barcode-graphic {
+    max-width: 100%;
+    height: 50px;
+  }
+
+  .barcode-text-line {
+    font-family: monospace;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-top: 2px;
+    text-align: center;
+  }
+
+  .bnpl-info {
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.35;
+    margin-top: 6px;
+  }
+
+  .state-item-card {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 12px 16px;
+    background: #fff;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    font-size: 15px;
+  }
+
+  .item-row, .state-row {
+    display: flex;
+    align-items: baseline;
+  }
+
+  .field-label {
+    font-weight: bold;
+    width: 65px;
+  }
+
+  .field-colon {
+    margin-right: 8px;
+    font-weight: bold;
+  }
+
+  .field-val {
+    font-weight: 800;
+    font-size: 16px;
+  }
+
+  /* Bottom Row */
+  .label-bottom-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
+  .from-box {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 10px;
+    background: #fff;
+    flex: 2.2;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .to-box {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 10px;
+    background: #fff;
+    flex: 2.5;
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .unique-box-card {
+    border: 1.5px solid #333;
+    border-radius: 6px;
+    padding: 10px;
+    background: #fff;
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .unique-box-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .unique-box-number {
+    font-size: 38px;
+    font-weight: 900;
+    line-height: 1;
+    color: #000;
+  }
+
+  .footer-notice {
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    color: #b71c1c;
+    margin-top: 8px;
+    line-height: 1.3;
+  }
+
+  .footer-subnotice {
+    color: #111;
+    font-size: 11px;
+    font-weight: 700;
+  }
+</style>
+
+<!-- JsBarcode script for SVG barcode generation -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+{% for box in doc.boxes %}
+<div class="label-page">
+  <div class="label-container">
+    <div class="annexure-header">
+      <div></div>
+      <div class="annexure-title">Format of Dispatch Address label</div>
+      <div class="annexure-tag">Annexure- III</div>
+    </div>
+
+    <div class="label-outer-box">
+      <!-- Top Row -->
+      <div class="label-top-row">
+        <div class="logo-box">
+          <div class="census-badge">
+            <div class="census-badge-hi">भारत की जनगणना</div>
+            <div class="census-badge-year">2027</div>
+            <div class="census-badge-en">CENSUS OF INDIA</div>
+          </div>
+          <div><span class="section-tag">{{ settings.from_title or "GENERAL SECTION" }}</span></div>
+        </div>
+
+        <div class="project-header-box">
+          <div class="warning-red-heading">
+            BOX TO BE RE-USED<br>
+            DO NOT TEAR OPEN
+          </div>
+          <div class="project-title">{{ settings.project_name or "CENSUS-2027 PROJECT" }}</div>
+        </div>
+
+        <div class="top-right-box">
+          <div class="top-right-row">
+            <span class="top-right-label">Box No.</span>
+            <span class="top-right-val">{{ box.box_no }}</span>
+          </div>
+          <div class="top-right-row">
+            <span class="top-right-label">Weight</span>
+            <span class="top-right-val">{{ "%.2f"|format(box.weight_kg) }} Kgs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mid Row -->
+      <div class="label-mid-row">
+        <div class="barcode-card">
+          <div class="booked-from-text">Booked from {{ settings.booked_from or "Speed Post Center" }}</div>
+          <div class="barcode-wrapper">
+            <svg id="barcode-{{ box.name or loop.index }}" class="barcode-graphic"></svg>
+            <div class="barcode-text-line">*{{ box.speed_post_barcode }}*</div>
+          </div>
+          <div class="bnpl-info">
+            <div>BNPL Code No. {{ settings.bnpl_code or "901-559" }}</div>
+            <div>Customer ID: {{ settings.customer_id or "2000009746" }}</div>
+          </div>
+        </div>
+
+        <div class="state-item-card">
+          <div class="item-row">
+            <span class="field-label">Item</span>
+            <span class="field-colon">:</span>
+            <span class="field-val">{{ box.item_description or "Kit Items" }}</span>
+          </div>
+          <div class="state-row">
+            <span class="field-label">State</span>
+            <span class="field-colon">:</span>
+            <span class="field-val">{{ doc.state }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="label-bottom-row">
+        <div class="from-box">
+          <div style="font-weight: bold; margin-bottom: 2px;">From</div>
+          <div style="font-weight: 800;">{{ settings.from_title or "GENERAL SECTION" }}</div>
+          <div>{{ (settings.from_organization or "Office of the Registrar General & Census Commissioner of India\nJanganana Bhawan, 2/A Man Singh Road,\nNew Delhi - 110011").replace('\n', '<br>') }}</div>
+        </div>
+
+        <div class="to-box">
+          <div style="font-weight: bold; margin-bottom: 2px;">To</div>
+          <div style="font-weight: 800;">{{ doc.consignee_name or "DIRECTOR OF CENSUS OPERATIONS" }}</div>
+          <div style="white-space: pre-line;">{{ doc.delivery_address or "" }}</div>
+          {% if doc.pincode %}
+            <div>PIN: {{ doc.pincode }}</div>
+          {% endif %}
+        </div>
+
+        <div class="unique-box-card">
+          <div class="unique-box-title">Unique Box No.</div>
+          <div class="unique-box-number">{{ box.unique_box_no }}</div>
+        </div>
+      </div>
+
+      <!-- Warning Footer -->
+      <div class="footer-notice">
+        PLEASE DO NOT TEAR, CUT OR DAMAGE THIS BOX.
+        <div class="footer-subnotice">This box is the property of the Census of India and is meant to be re-used.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  try {
+    JsBarcode("#barcode-{{ box.name or loop.index }}", "{{ box.speed_post_barcode }}", {
+      format: "CODE128",
+      displayValue: false,
+      lineColor: "#000",
+      width: 1.8,
+      height: 44,
+      margin: 2
+    });
+  } catch(e) {
+    console.error("Barcode rendering error:", e);
+  }
+</script>
+{% endfor %}

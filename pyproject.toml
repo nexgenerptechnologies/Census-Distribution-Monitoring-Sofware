@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "census_distribution_monitoring_software"
+authors = [
+    { name = "NexGen ERP Technologies", email = "info@nexgenerptechnologies.com"}
+]
+description = "Census Distribution Monitoring Software for Frappe Framework v15 and v16"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+dependencies = [
+    "python-barcode>=0.15.1"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["census_distribution_monitoring_software*"]

@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "CEN-DISP-.YYYY.-.#####",
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "dispatch_date",
+  "state",
+  "state_code",
+  "consignee_name",
+  "delivery_address",
+  "pincode",
+  "column_break_1",
+  "status",
+  "total_kits",
+  "total_boxes",
+  "total_weight_kg",
+  "section_break_boxes",
+  "boxes",
+  "section_break_items",
+  "items",
+  "section_break_notes",
+  "notes",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "dispatch_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Dispatch Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Destination State",
+   "options": "Census State",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "state.state_code",
+   "fieldname": "state_code",
+   "fieldtype": "Data",
+   "label": "State Census Code",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "state.consignee_name",
+   "fieldname": "consignee_name",
+   "fieldtype": "Data",
+   "label": "Consignee Name"
+  },
+  {
+   "fetch_from": "state.delivery_address",
+   "fieldname": "delivery_address",
+   "fieldtype": "Small Text",
+   "label": "Delivery Address"
+  },
+  {
+   "fetch_from": "state.pincode",
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "Pincode"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nDispatched\nIn Transit\nDelivered"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_kits",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Kit Sets"
+  },
+  {
+   "default": "1",
+   "fieldname": "total_boxes",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Boxes"
+  },
+  {
+   "default": "0.0",
+   "fieldname": "total_weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Total Weight (Kgs)"
+  },
+  {
+   "fieldname": "section_break_boxes",
+   "fieldtype": "Section Break",
+   "label": "Boxes & Consignment Details (Speed Post & Barcodes)"
+  },
+  {
+   "fieldname": "boxes",
+   "fieldtype": "Table",
+   "label": "Boxes",
+   "options": "Census Dispatch Box",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Dispatched Loose Items / Additional (Optional)"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Loose Items Details",
+   "options": "Census Dispatch Item"
+  },
+  {
+   "fieldname": "section_break_notes",
+   "fieldtype": "Section Break",
+   "label": "Dispatch Notes"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Census Dispatch",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Dispatch",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Portal User"
+  }
+ ],
+ "sort_field": "dispatch_date",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "state",
+ "track_changes": 1
+}

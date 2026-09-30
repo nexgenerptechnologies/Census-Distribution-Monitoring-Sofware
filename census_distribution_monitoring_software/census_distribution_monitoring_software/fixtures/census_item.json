@@ -1,0 +1,112 @@
+[
+ {
+  "doctype": "Census Item",
+  "item_code": "KIT-ENUMERATOR-01",
+  "item_name": "Enumerator Kit Set",
+  "sr_no": 0,
+  "is_kit_set": 1,
+  "uom": "Set",
+  "is_active": 1,
+  "description": "Complete Enumerator Kit Set containing items Sr. No. 1 to 10"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-01-BAG",
+  "item_name": "Water Resistant Carry Bag with Census Logo",
+  "sr_no": 1,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Water Resistant Carry Bag with Census Logo"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-02-BOARD",
+  "item_name": "Foldable Writing Board with 2 detachable binder clips",
+  "sr_no": 2,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Foldable Writing Board with 2 detachable binder clips"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-03-NOTEPAD",
+  "item_name": "Spiral Notepad",
+  "sr_no": 3,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Spiral Notepad"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-04-CAP",
+  "item_name": "White Cap with Census Logo",
+  "sr_no": 4,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "White Cap with Census Logo"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-05-LANYARD",
+  "item_name": "Lanyard for Identity Card with transparent pouch",
+  "sr_no": 5,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Lanyard for Identity Card with transparent pouch"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-06-MARKER",
+  "item_name": "Marker Pens (Red-1 and Black-1)",
+  "sr_no": 6,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Marker Pens (Red-1 and Black-1) (2 per Kit)"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-07-PEN",
+  "item_name": "Ball Point Pen (Blue-1 and Black-1)",
+  "sr_no": 7,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Ball Point Pen (Blue-1 and Black-1) (2 per Kit)"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-08-PENCIL",
+  "item_name": "Pencil",
+  "sr_no": 8,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Pencil (2 per Kit)"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-09-SHARPENER",
+  "item_name": "Sharpener",
+  "sr_no": 9,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Sharpener"
+ },
+ {
+  "doctype": "Census Item",
+  "item_code": "LOOSE-10-ERASER",
+  "item_name": "Eraser",
+  "sr_no": 10,
+  "is_kit_set": 0,
+  "uom": "Nos",
+  "is_active": 1,
+  "description": "Eraser"
+ }
+]

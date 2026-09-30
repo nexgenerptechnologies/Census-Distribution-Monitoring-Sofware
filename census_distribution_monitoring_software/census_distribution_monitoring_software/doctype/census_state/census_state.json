@@ -1,0 +1,115 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:display_name",
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "display_name",
+  "state_name",
+  "state_code",
+  "column_break_1",
+  "consignee_name",
+  "contact_person",
+  "contact_number",
+  "section_break_address",
+  "delivery_address",
+  "pincode"
+ ],
+ "fields": [
+  {
+   "fieldname": "display_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "State Display Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "state_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "State Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "state_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Census State Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "DIRECTOR OF CENSUS OPERATIONS",
+   "fieldname": "consignee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Consignee Name"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Data",
+   "label": "Contact Person"
+  },
+  {
+   "fieldname": "contact_number",
+   "fieldtype": "Data",
+   "label": "Contact Number"
+  },
+  {
+   "fieldname": "section_break_address",
+   "fieldtype": "Section Break",
+   "label": "Consignee Delivery Address"
+  },
+  {
+   "fieldname": "delivery_address",
+   "fieldtype": "Small Text",
+   "label": "Delivery Address"
+  },
+  {
+   "fieldname": "pincode",
+   "fieldtype": "Data",
+   "label": "Pincode"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census State",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Census Portal User"
+  }
+ ],
+ "sort_field": "state_code",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "display_name",
+ "track_changes": 1
+}

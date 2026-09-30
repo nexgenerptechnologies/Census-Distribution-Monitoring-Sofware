@@ -1,0 +1,88 @@
+{
+ "actions": [],
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "box_no",
+  "unique_box_no",
+  "speed_post_serial",
+  "speed_post_barcode",
+  "weight_kg",
+  "kits_count",
+  "item_description",
+  "status"
+ ],
+ "fields": [
+  {
+   "description": "e.g., 1 of 2, 2 of 2",
+   "fieldname": "box_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Box No.",
+   "reqd": 1
+  },
+  {
+   "description": "Unique Box Number, e.g. 1192",
+   "fieldname": "unique_box_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Unique Box No.",
+   "reqd": 1
+  },
+  {
+   "description": "Serial number from series 40000 to 50000",
+   "fieldname": "speed_post_serial",
+   "fieldtype": "Int",
+   "label": "Speed Post Sr. No."
+  },
+  {
+   "description": "Full Barcode e.g. EN000040001IN or EN650541929IN",
+   "fieldname": "speed_post_barcode",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Speed Post Barcode / Article No.",
+   "reqd": 1
+  },
+  {
+   "fieldname": "weight_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Weight (Kgs)",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "kits_count",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Kits in Box"
+  },
+  {
+   "default": "Kit Items",
+   "fieldname": "item_description",
+   "fieldtype": "Data",
+   "label": "Item Description"
+  },
+  {
+   "default": "Dispatched",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Dispatched\nIn Transit\nDelivered"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Dispatch Box",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "idx",
+ "sort_order": "ASC",
+ "states": []
+}

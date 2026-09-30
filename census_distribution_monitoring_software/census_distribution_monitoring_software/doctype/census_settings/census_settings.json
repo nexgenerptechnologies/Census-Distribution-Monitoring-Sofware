@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "creation": "2026-09-30 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "general_section",
+  "project_name",
+  "booked_from",
+  "column_break_general",
+  "bnpl_code",
+  "customer_id",
+  "address_section",
+  "from_title",
+  "from_organization",
+  "speed_post_series_section",
+  "speed_post_prefix",
+  "speed_post_suffix",
+  "column_break_sp",
+  "speed_post_start_series",
+  "speed_post_end_series",
+  "speed_post_current_number",
+  "speed_post_number_padding",
+  "label_warnings_section",
+  "box_header_warning",
+  "box_footer_warning"
+ ],
+ "fields": [
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "Consignment Defaults"
+  },
+  {
+   "default": "CENSUS-2027 PROJECT",
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "label": "Project Name"
+  },
+  {
+   "default": "Speed Post Center",
+   "fieldname": "booked_from",
+   "fieldtype": "Data",
+   "label": "Booked from Post Center"
+  },
+  {
+   "fieldname": "column_break_general",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "901-559",
+   "fieldname": "bnpl_code",
+   "fieldtype": "Data",
+   "label": "BNPL Code No."
+  },
+  {
+   "default": "2000009746",
+   "fieldname": "customer_id",
+   "fieldtype": "Data",
+   "label": "Customer ID"
+  },
+  {
+   "fieldname": "address_section",
+   "fieldtype": "Section Break",
+   "label": "Default Shipper / From Address"
+  },
+  {
+   "default": "GENERAL SECTION",
+   "fieldname": "from_title",
+   "fieldtype": "Data",
+   "label": "From Section / Department"
+  },
+  {
+   "default": "Office of the Registrar General & Census Commissioner of India\nJanganana Bhawan, 2/A Man Singh Road,\nNew Delhi - 110011",
+   "fieldname": "from_organization",
+   "fieldtype": "Small Text",
+   "label": "From Organization Address"
+  },
+  {
+   "fieldname": "speed_post_series_section",
+   "fieldtype": "Section Break",
+   "label": "Speed Post Barcode Configuration"
+  },
+  {
+   "default": "EN",
+   "fieldname": "speed_post_prefix",
+   "fieldtype": "Data",
+   "label": "Speed Post Prefix"
+  },
+  {
+   "default": "IN",
+   "fieldname": "speed_post_suffix",
+   "fieldtype": "Data",
+   "label": "Speed Post Suffix"
+  },
+  {
+   "fieldname": "column_break_sp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "40000",
+   "fieldname": "speed_post_start_series",
+   "fieldtype": "Int",
+   "label": "Start Serial No."
+  },
+  {
+   "default": "50000",
+   "fieldname": "speed_post_end_series",
+   "fieldtype": "Int",
+   "label": "End Serial No."
+  },
+  {
+   "default": "40000",
+   "fieldname": "speed_post_current_number",
+   "fieldtype": "Int",
+   "label": "Next / Current Serial No."
+  },
+  {
+   "default": "9",
+   "description": "Total numeric digits padded with zeros (e.g., 9 digits: 40001 -> 000040001)",
+   "fieldname": "speed_post_number_padding",
+   "fieldtype": "Int",
+   "label": "Barcode Number Zero Padding"
+  },
+  {
+   "fieldname": "label_warnings_section",
+   "fieldtype": "Section Break",
+   "label": "Box Sticker Warnings & Instructions"
+  },
+  {
+   "default": "BOX TO BE RE-USED\nDO NOT TEAR OPEN",
+   "fieldname": "box_header_warning",
+   "fieldtype": "Small Text",
+   "label": "Header Warning Notice"
+  },
+  {
+   "default": "PLEASE DO NOT TEAR, CUT OR DAMAGE THIS BOX.\nThis box is the property of the Census of India and is meant to be re-used.",
+   "fieldname": "box_footer_warning",
+   "fieldtype": "Small Text",
+   "label": "Footer Warning Notice"
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-30 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Census Distribution Monitoring Software",
+ "name": "Census Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
