@@ -11,9 +11,7 @@ authors = [
 description = "Census Distribution Monitoring Software for Frappe Framework v15 and v16"
 requires-python = ">=3.10"
 readme = "README.md"
-dependencies = [
-    "python-barcode>=0.15.1"
-]
+dependencies = []
 
 [tool.setuptools.packages.find]
 where = ["."]
